@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RH Prediction Form</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2em auto; padding: 1em; }
+    label { display: block; margin-bottom: 0.5em; }
+    input { width: 100%; padding: 0.5em; margin-top: 0.2em; box-sizing: border-box; }
+    button { padding: 0.7em 1.5em; font-size: 1em; margin-top: 1em; cursor: pointer; }
+    .result { margin-top: 2em; padding: 1em; background: #f0f8ff; border: 1px solid #cce; }
+    .error  { margin-top: 1em; padding: 0.8em; background: #ffe6e6; border: 1px solid #e0b4b4; color: #a94442; }
+  </style>
+</head>
+<body>
+  <h1>Predict Relative Humidity (RH)</h1>
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+  <form id="rh-form" method="POST" action="/some-route">
+    {% for name in feature_names %}
+      <label>{{ name }}:
+        <input type="number" name="{{ name }}" step="any" required>
+      </label>
+    {% endfor %}
+    <button type="submit">Predict RH</button>
+  </form>
+
+  {% if prediction is not none %}
+    <div class="result">
+      <h2>Predicted RH: {{ prediction | round(2) }}%</h2>
+    </div>
+  {% endif %}
+</body>
+</html>
+
